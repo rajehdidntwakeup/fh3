@@ -1,0 +1,4 @@
+sdkman_auto_answer=true
+sdkman_auto_selfupdate=true
+java=21-open
+gradle=9.4
