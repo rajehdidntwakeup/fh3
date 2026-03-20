@@ -13,6 +13,7 @@
 
 # Build scripts and wrappers
 gradlew text eol=lf
+.githooks/* text eol=lf
 *.bat text eol=crlf
 *.gradle text
 *.gradle.kts text

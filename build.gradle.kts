@@ -1,7 +1,8 @@
-    plugins {
+plugins {
     java
     id("org.springframework.boot") version "4.0.4"
     id("io.spring.dependency-management") version "1.1.7"
+    id("com.diffplug.spotless") version "8.4.0"
 }
 
 group = "bswe"
@@ -31,4 +32,37 @@ dependencies {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+spotless {
+    java {
+        target("src/**/*.java")
+        googleJavaFormat()
+        removeUnusedImports()
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+    format("markdown") {
+        target("*.md")
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+    format("json") {
+        target("src/**/*.json")
+        trimTrailingWhitespace()
+        leadingTabsToSpaces()
+        endWithNewline()
+    }
+    format("yaml") {
+        target("**/*.yaml", "**/*.yml")
+        trimTrailingWhitespace()
+        leadingTabsToSpaces()
+        endWithNewline()
+    }
+    format("misc") {
+        target("*.gradle.kts", ".gitignore", ".gitattributes")
+        trimTrailingWhitespace()
+        leadingTabsToSpaces()
+        endWithNewline()
+    }
 }

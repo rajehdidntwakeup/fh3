@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+
+echo "Running Spotless check..."
+
+if [ -x "./gradlew" ]; then
+  ./gradlew --no-daemon spotlessCheck
+else
+  ./gradlew.bat --no-daemon spotlessCheck
+fi
