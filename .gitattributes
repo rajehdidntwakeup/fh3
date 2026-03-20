@@ -1,0 +1,27 @@
+# Set default behavior to automatically handle line endings.
+* text=auto
+
+# Source code files
+*.java text
+*.kt text
+*.kts text
+*.properties text
+*.yaml text
+*.yml text
+*.md text
+*.xml text
+
+# Build scripts and wrappers
+gradlew text eol=lf
+*.bat text eol=crlf
+*.gradle text
+*.gradle.kts text
+
+# Binary files
+*.jar binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
