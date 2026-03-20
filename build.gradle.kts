@@ -66,3 +66,14 @@ spotless {
         endWithNewline()
     }
 }
+
+val installGitHooks by tasks.registering(Exec::class) {
+    description = "Installs git hooks from .githooks directory"
+    group = "git hooks"
+    workingDir = rootDir
+    commandLine("git", "config", "core.hooksPath", ".githooks")
+}
+
+tasks.named("build") {
+    dependsOn(installGitHooks)
+}

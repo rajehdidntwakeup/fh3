@@ -1,9 +1,14 @@
 #!/usr/bin/env sh
 
+set -eu
+
 echo "Running Spotless check..."
 
-if [ -x "./gradlew" ]; then
+if [ -f "./gradlew" ]; then
   ./gradlew --no-daemon spotlessCheck
-else
+elif [ -f "./gradlew.bat" ]; then
   ./gradlew.bat --no-daemon spotlessCheck
+else
+  echo "Gradle wrapper not found (expected ./gradlew or ./gradlew.bat)." >&2
+  exit 1
 fi
