@@ -17,26 +17,16 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
-    services:
-      postgres:
-        image: postgres:16
-        env:
-          POSTGRES_DB: mydatabase
-          POSTGRES_USER: myuser
-          POSTGRES_PASSWORD: secret
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd "pg_isready -U myuser -d mydatabase"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+    timeout-minutes: 25
     env:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/mydatabase
-      SPRING_DATASOURCE_USERNAME: myuser
-      SPRING_DATASOURCE_PASSWORD: secret
+      SPRING_PROFILES_ACTIVE: test
       SPRING_DOCKER_COMPOSE_ENABLED: false
+      SPRING_DATASOURCE_URL: jdbc:h2:mem:ci;MODE=PostgreSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.h2.Driver
+      SPRING_DATASOURCE_USERNAME: sa
+      SPRING_DATASOURCE_PASSWORD: ""
+      SPRING_JPA_DATABASE_PLATFORM: org.hibernate.dialect.H2Dialect
+      SPRING_JPA_HIBERNATE_DDL_AUTO: create-drop
 
     steps:
       - name: Checkout
@@ -54,15 +44,44 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Spotless check and build
-        run: ./gradlew --no-daemon spotlessCheck build
+      - name: Show Java and Gradle versions
+        run: |
+          java -version
+          ./gradlew --version
+
+      - name: Clean project
+        run: ./gradlew --no-daemon clean
+
+      - name: Run Spotless check
+        run: ./gradlew --no-daemon spotlessCheck
+
+      - name: Compile main sources
+        run: ./gradlew --no-daemon classes
+
+      - name: Run test suite with H2
+        run: ./gradlew --no-daemon test
+
+      - name: Run SpotBugs
+        run: ./gradlew --no-daemon spotbugsMain
+
+      - name: Build artifact
+        run: ./gradlew --no-daemon build -x test
 
       - name: Upload test reports
-        if: failure()
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: test-reports
           path: |
             build/reports/tests/test
             build/test-results/test
+            build/reports/spotbugs
+          if-no-files-found: ignore
+
+      - name: Upload JAR
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-jar
+          path: build/libs/*.jar
           if-no-files-found: ignore
