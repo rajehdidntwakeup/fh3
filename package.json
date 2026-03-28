@@ -1,0 +1,25 @@
+{
+  "name": "fh3",
+  "version": "1.0.0",
+  "description": "A Spring Boot application built with Java 21, leveraging Spring Data JPA, Spring Web, and PostgreSQL. This project is configured with Gradle and includes Docker Compose support for easy local development.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rajehdidntwakeup/fh3.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rajehdidntwakeup/fh3/issues"
+  },
+  "homepage": "https://github.com/rajehdidntwakeup/fh3#readme",
+  "type": "module",
+  "devDependencies": {
+    "@commitlint/cli": "^20.5.0",
+    "@commitlint/config-conventional": "^20.5.0"
+  }
+}

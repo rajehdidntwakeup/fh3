@@ -61,6 +61,7 @@ spotless {
     }
     format("yaml") {
         target("**/*.yaml", "**/*.yml")
+        targetExclude("node_modules/**")
         trimTrailingWhitespace()
         leadingTabsToSpaces()
         endWithNewline()

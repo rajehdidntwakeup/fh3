@@ -24,13 +24,15 @@ A Spring Boot application built with Java 21, leveraging Spring Data JPA, Spring
 - **Docker Compose Support**: Automatically manages the database service for development.
 - **Spotless**: Enforces consistent code formatting (Java, Markdown, JSON, YAML, etc.).
 - **SpotBugs**: Static analysis to find bugs in Java code.
-- **Git Hooks**: Pre-commit hooks for automated code quality checks.
+- **Conventional Commits**: Enforces standardized commit messages via [commitlint](https://commitlint.js.org/).
+- **Git Hooks**: Pre-commit and commit-msg hooks for automated code quality checks.
 
 ## Prerequisites
 
 To run this project locally, ensure you have the following installed:
 
 - **Java 21**: The project uses the Java 21 toolchain.
+- **Node.js 22+**: Required for commit message linting.
 - **Docker**: Required for running the PostgreSQL database service via Docker Compose.
 - **Gradle**: The project includes the Gradle wrapper (`gradlew`), so no global Gradle installation is required.
 
@@ -82,7 +84,11 @@ This project uses [Spotless](https://github.com/diffplug/spotless) for automated
 
 ### Git Hooks
 
-The project includes a pre-commit hook located in the `.githooks` directory. This hook ensures that `spotlessCheck` is run before every commit. These hooks are automatically installed when running the `./gradlew build` task.
+The project includes pre-commit and commit-msg hooks located in the `.githooks` directory.
+- **pre-commit**: Ensures that `spotlessCheck` is run before every commit.
+- **commit-msg**: Enforces [Conventional Commits](https://www.conventionalcommits.org/) using `commitlint`.
+
+These hooks are automatically installed when running the `./gradlew build` task. To use commit linting locally, run `npm install` after cloning the repository.
 
 ## License
 

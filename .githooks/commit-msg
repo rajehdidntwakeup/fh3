@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+if [ -f "package.json" ]; then
+    npx commitlint --edit "$1"
+else
+    echo "Warning: package.json not found, skipping commit-msg check."
+fi
