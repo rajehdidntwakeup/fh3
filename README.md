@@ -23,6 +23,8 @@ A Spring Boot application built with Java 21, leveraging Spring Data JPA, Spring
 - **PostgreSQL**: Integrated database support with a Docker Compose configuration.
 - **Docker Compose Support**: Automatically manages the database service for development.
 - **Spotless**: Enforces consistent code formatting (Java, Markdown, JSON, YAML, etc.).
+- **SpotBugs**: Static analysis to find bugs in Java code.
+- **Git Hooks**: Pre-commit hooks for automated code quality checks.
 
 ## Prerequisites
 
@@ -67,14 +69,20 @@ Local development settings are defined in `compose.yaml`:
 - **Database**: `mydatabase`
 - **User**: `myuser`
 - **Password**: `secret`
+- **Port**: `5432`
 - **PostgreSQL Image**: `postgres:latest`
 
 ## Code Quality
 
-This project uses [Spotless](https://github.com/diffplug/spotless) for automated code formatting.
+This project uses [Spotless](https://github.com/diffplug/spotless) for automated code formatting and [SpotBugs](https://spotbugs.github.io/) for static analysis.
 
 - **Check formatting**: `./gradlew spotlessCheck`
 - **Apply formatting**: `./gradlew spotlessApply`
+- **Run bug analysis**: `./gradlew spotbugsMain` (or `spotbugsTest`)
+
+### Git Hooks
+
+The project includes a pre-commit hook located in the `.githooks` directory. This hook ensures that `spotlessCheck` is run before every commit. These hooks are automatically installed when running the `./gradlew build` task.
 
 ## License
 
